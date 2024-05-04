@@ -42,11 +42,18 @@ public class Analyzer {
                 if (!line.isEmpty()) {
                     LogEntry logEntry = logParser.parseEntry(line);
                     logPeriodService.analyzeEntry(logEntry);
+                } else {
+                    finish();
+                    System.exit(0);
                 }
             } catch (ParseException e) {
                 log.warn(e.getMessage());
             }
         });
+        finish();
+    }
+
+    private void finish() {
         logPeriodService.flush();
         logPeriodService.writeInfo(writer, logPeriodFormatter);
     }
